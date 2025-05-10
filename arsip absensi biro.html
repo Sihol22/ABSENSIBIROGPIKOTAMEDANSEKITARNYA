@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>Absensi Ibadah Biro GPI Kota Medan</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+  /* Reset and base */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #001f3f, #00509e);
+    color: #f0f0f5;
+    min-height: 100vh;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 20px 10px 40px;
+    flex-direction: column;
+  }
+  .container {
+    background: linear-gradient(145deg, #003366, #004a99);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.35);
+    border-radius: 16px;
+    max-width: 360px;
+    width: 100%;
+    padding: 28px 32px 36px;
+    box-sizing: border-box;
+  }
+  h1 {
+    font-weight: 700;
+    margin: 0 0 12px;
+    font-size: 1.8rem;
+    letter-spacing: 0.05em;
+    text-align: center;
+    color: #e0e7ff;
+    text-shadow: 1px 1px 5px rgba(0,0,0,0.4);
+  }
+  p.subtitle {
+    color: #bcdffd;
+    text-align: center;
+    font-size: 1.03rem;
+    margin-top: 0;
+    margin-bottom: 24px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  label {
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #dde6f2;
+    letter-spacing: 0.02em;
+  }
+  input[type="text"],
+  select,
+  input[readonly] {
+    background-color: #f0f4ff1a;
+    border: 1.8px solid #6190e8;
+    color: #e0e7ff;
+    padding: 11px 14px;
+    font-size: 1rem;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+    box-shadow: inset 0 2px 10px #0a2e7c5e;
+  }
+  input[type="text"]::placeholder,
+  select::placeholder {
+    color: #a7c0ff;
+  }
+  input[type="text"]:focus,
+  select:focus {
+    border-color: #dbeaff;
+    outline: none;
+    box-shadow: 0 0 10px 3px #9bbcffcc;
+    background-color: #143f89;
+  }
+  .readonly-field {
+    cursor: not-allowed;
+    background-color: #141f45;
+    color: #a7b5ff;
+    box-shadow: inset 0 0 8px #253961;
+  }
+  .checkbox-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+  }
+  .checkbox-group input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-right: 12px;
+    accent-color: #7db9ff;
+    cursor: pointer;
+    border-radius: 4px;
+    box-shadow: 0 0 4px #3a82f7a8;
+  }
+  .checkbox-group label {
+    font-weight: 600;
+    color: #c3d6ff;
+    user-select:none;
+    cursor: pointer;
+    font-size: 1.1rem;
+    letter-spacing: 0.015em;
+  }
+  button {
+    background: linear-gradient(90deg, #4b79a1, #283e51);
+    color: #e6ebff;
+    font-weight: 700;
+    font-size: 1.18rem;
+    padding: 14px 0;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    box-shadow: 0 8px 25px #2460f8cc;
+    transition: all 0.35s ease;
+    letter-spacing: 0.04em;
+  }
+  button:hover, button:focus {
+    background: linear-gradient(90deg, #6a8bc9, #42588b);
+    box-shadow: 0 12px 30px #5f87ffcc;
+    outline: none;
+  }
+  .confirmation {
+    margin-top: 25px;
+    background: #1c4722cc;
+    border-left: 7px solid #83d475;
+    color: #b1dabb;
+    font-weight: 700;
+    padding: 18px 22px;
+    border-radius: 14px;
+    font-size: 1rem;
+    box-shadow: 0 3px 10px #5fc260cc;
+    letter-spacing: 0.02em;
+  }
+  .error {
+    color: #ff6961;
+    font-size: 0.95rem;
+    margin-bottom: 14px;
+    font-weight: 600;
+  }
+  .attendance-list-container {
+    margin-top: 40px;
+    max-height: 250px;
+    overflow-y: auto;
+    background: #0e1b3c;
+    border-radius: 14px;
+    padding: 20px 24px;
+    box-shadow: inset 0 0 16px #103060bb;
+    font-size: 0.95rem;
+    color: #c9d7ff;
+  }
+  .attendance-list-container h2 {
+    margin: 0 0 16px;
+    font-size: 1.22rem;
+    letter-spacing: 0.05em;
+    color: #8db7ff;
+    font-weight: 700;
+    text-align: center;
+    text-shadow: 1px 1px 12px #3960c035;
+  }
+  .attendance-list {
+    list-style: none;
+    padding-left: 0;
+    margin: 0 0 8px;
+  }
+  .attendance-list li {
+    padding: 8px 10px;
+    border-bottom: 1px solid #224177;
+    user-select: text;
+    white-space: normal;
+  }
+  .attendance-list li:last-child {
+    border: none;
+  }
+  .attendance-count {
+    color: #a3c1ffcc;
+    text-align: center;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    font-size: 1rem;
+    margin-top: 8px;
+    user-select:none;
+  }
+  .statistics-container {
+    margin-top: 30px;
+    background: #0e2a5a;
+    border-radius: 14px;
+    padding: 20px 24px;
+    box-shadow: inset 0 0 18px #3256a1bb;
+    font-size: 0.95rem;
+    color: #b0c8ff;
+  }
+  .statistics-container h2 {
+    margin: 0 0 12px;
+    font-size: 1.22rem;
+    letter-spacing: 0.05em;
+    color: #a4c6ff;
+    font-weight: 700;
+    text-align: center;
+    text-shadow: 1px 1px 10px #204d8a3d;
+  }
+  .statistics-list {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+  }
+  .statistics-list li {
+    padding: 6px 10px;
+    border-bottom: 1px solid #2b447a;
+    user-select: text;
+    font-weight: 600;
+  }
+  .statistics-list li:last-child {
+    border: none;
+  }
+  .footer {
+    margin-top: 30px;
+    text-align: center;
+    font-size: 0.95rem;
+    color: #bccdffcc;
+    font-weight: 500;
+    user-select:none;
+    letter-spacing: 0.03em;
+    font-style: italic;
+    text-shadow: 0 0 4px #4f71d7aa;
+    max-width: 360px;
+  }
+  @media (max-width: 400px) {
+    .container {
+      max-width: 100%;
+      padding: 24px 20px 32px;
+      border-radius: 12px;
+    }
+    h1 {
+      font-size: 1.6rem;
+    }
+    button {
+      font-size: 1rem;
+      padding: 12px 0;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="container" role="main" aria-label="Form absensi ibadah">
+  <h1>Absensi Ibadah Biro GPI Medan</h1>
+  <p class="subtitle">Isi data absensi dengan lengkap</p>
+  <form id="attendanceForm" novalidate>
+    <label for="namaJemaat">Nama Jemaat <span aria-hidden="true">*</span></label>
+    <input type="text" id="namaJemaat" name="namaJemaat" placeholder="Masukkan nama jemaat" autocomplete="off" required aria-required="true" aria-describedby="namaJemaatError" />
+    <div id="namaJemaatError" class="error" aria-live="polite"></div>
+
+    <label for="namaSidang">Nama Sidang</label>
+    <input type="text" id="namaSidang" name="namaSidang" placeholder="Isi nama sidang Anda sendiri" autocomplete="off" aria-describedby="namaSidangHelp" />
+    <small id="namaSidangHelp" style="color:#a1b8ff; font-size:0.85rem; margin-bottom:18px; display:block;">Bisa diisi sesuai sidang pribadi Anda</small>
+
+    <label for="pilihanIbadah">Pilihan Ibadah Biro Medan GPI KOTA MEDAN SEKITARNYA <span aria-hidden="true">*</span></label>
+    <select id="pilihanIbadah" name="pilihanIbadah" required aria-required="true" aria-describedby="pilihanIbadahError">
+      <option value="" disabled selected>Pilih jenis ibadah</option>
+      <option value="Ibadah Biro">Ibadah Biro</option>
+      <option value="Ibadah Doa Puasa">Ibadah Doa Puasa</option>
+    </select>
+    <div id="pilihanIbadahError" class="error" aria-live="polite"></div>
+
+    <label for="tanggalWaktu">Tanggal & Waktu</label>
+    <input type="text" id="tanggalWaktu" name="tanggalWaktu" class="readonly-field" readonly aria-readonly="true" aria-label="Tanggal dan Waktu saat ini" />
+
+    <div class="checkbox-group">
+      <input type="checkbox" id="hadir" name="hadir" checked />
+      <label for="hadir">Hadir</label>
+    </div>
+
+    <button type="submit" aria-label="Kirim data absensi">Absensi</button>
+  </form>
+
+  <div id="confirmationMessage" class="confirmation" role="alert" aria-live="assertive" style="display:none;"></div>
+
+  <div class="attendance-list-container" aria-live="polite" aria-label="Daftar detaile absensi jemaat">
+    <h2>Daftar Jemaat yang Sudah Absensi</h2>
+    <ul id="attendanceList" class="attendance-list" role="list" tabindex="0"></ul>
+    <div id="attendanceCount" class="attendance-count" aria-live="polite"></div>
+  </div>
+
+  <div class="statistics-container" aria-label="Statistik kehadiran berdasarkan nama sidang">
+    <h2>Statistik Kehadiran Berdasarkan Nama Sidang</h2>
+    <ul id="statisticsList" class="statistics-list" role="list" tabindex="0"></ul>
+  </div>
+</div>
+
+<div class="footer" aria-label="Footer website">
+  Dibuat Oleh: Hasiholan Matondang, Copyright 2025.
+</div>
+
+<script>
+(function() {
+  const namaJemaatInput = document.getElementById('namaJemaat');
+  const namaSidangInput = document.getElementById('namaSidang');
+  const pilihanIbadahSelect = document.getElementById('pilihanIbadah');
+  const tanggalWaktuInput = document.getElementById('tanggalWaktu');
+  const hadirCheckbox = document.getElementById('hadir');
+  const form = document.getElementById('attendanceForm');
+  const confirmationMessage = document.getElementById('confirmationMessage');
+  const attendanceList = document.getElementById('attendanceList');
+  const attendanceCount = document.getElementById('attendanceCount');
+  const namaJemaatError = document.getElementById('namaJemaatError');
+  const pilihanIbadahError = document.getElementById('pilihanIbadahError');
+  const statisticsList = document.getElementById('statisticsList');
+
+  function getFormattedDateTime() {
+    const now = new Date();
+    const day = String(now.getDate()).padStart(2, '0');
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const year = now.getFullYear();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+    return `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
+  }
+
+  function updateDateTime() {
+    tanggalWaktuInput.value = getFormattedDateTime();
+  }
+
+  // Render full attendance details for all entries
+  function renderAttendanceList() {
+    const attendanceData = JSON.parse(localStorage.getItem('attendanceData') || '[]');
+    attendanceList.innerHTML = '';
+
+    if (attendanceData.length === 0) {
+      attendanceList.innerHTML = '<li>Belum ada yang absensi.</li>';
+      attendanceCount.textContent = '';
+      return;
+    }
+
+    attendanceData.forEach(entry => {
+      const li = document.createElement('li');
+      li.textContent = `Nama Jemaat: ${entry.namaJemaat || "-"}, Nama Sidang: ${entry.namaSidang || "-"}, Jenis Ibadah: ${entry.pilihanIbadah || "-"}, Tanggal & Waktu: ${entry.tanggalWaktu || "-"}, Hadir: ${entry.hadir ? 'Ya' : 'Tidak'}`;
+      attendanceList.appendChild(li);
+    });
+
+    attendanceCount.textContent = `Total Jemaat yang sudah absensi: ${attendanceData.length}`;
+  }
+
+  // Render statistics: count hadir per namaSidang (only counting hadir: true)
+  function renderStatistics() {
+    const attendanceData = JSON.parse(localStorage.getItem('attendanceData') || '[]');
+    const stats = {};
+    attendanceData.forEach(entry => {
+      if (entry.hadir) {
+        const sidang = (entry.namaSidang && entry.namaSidang.trim()) || '(Sidang kosong)';
+        stats[sidang] = (stats[sidang] || 0) + 1;
+      }
+    });
+
+    // Convert stats object to array and sort descending by count
+    const sortedStats = Object.entries(stats).sort((a,b) => b[1] - a[1]);
+
+    statisticsList.innerHTML = '';
+
+    if(sortedStats.length === 0){
+      statisticsList.innerHTML = '<li>Belum ada data kehadiran untuk sidang mana pun.</li>';
+      return;
+    }
+
+    sortedStats.forEach(([sidang, count]) => {
+      const li = document.createElement('li');
+      li.textContent = `${sidang} : ${count} orang hadir`;
+      statisticsList.appendChild(li);
+    });
+  }
+
+  updateDateTime();
+  setInterval(updateDateTime, 1000);
+  renderAttendanceList();
+  renderStatistics();
+
+  form.addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    namaJemaatError.textContent = '';
+    pilihanIbadahError.textContent = '';
+    confirmationMessage.style.display = 'none';
+
+    let isValid = true;
+
+    if (!namaJemaatInput.value.trim()) {
+      namaJemaatError.textContent = 'Nama Jemaat harus diisi.';
+      isValid = false;
+    }
+    if (!pilihanIbadahSelect.value) {
+      pilihanIbadahError.textContent = 'Silakan pilih jenis ibadah.';
+      isValid = false;
+    }
+
+    if (!isValid) {
+      return;
+    }
+
+    const attendanceEntry = {
+      namaJemaat: namaJemaatInput.value.trim(),
+      namaSidang: namaSidangInput.value.trim(),
+      pilihanIbadah: pilihanIbadahSelect.value,
+      tanggalWaktu: tanggalWaktuInput.value,
+      hadir: hadirCheckbox.checked
+    };
+
+    let attendanceData = JSON.parse(localStorage.getItem('attendanceData') || '[]');
+    attendanceData.push(attendanceEntry);
+    localStorage.setItem('attendanceData', JSON.stringify(attendanceData));
+
+    confirmationMessage.textContent = `Terima kasih, ${attendanceEntry.namaJemaat}. Absensi Anda untuk "${attendanceEntry.pilihanIbadah}" pada ${attendanceEntry.tanggalWaktu} telah tercatat.` + (attendanceEntry.hadir ? "" : " (Tidak hadir)");
+    confirmationMessage.style.display = 'block';
+
+    form.reset();
+    hadirCheckbox.checked = true;
+    updateDateTime();
+    renderAttendanceList();
+    renderStatistics();
+
+    namaJemaatInput.focus();
+  });
+})();
+</script>
+
+</body>
+</html>
+
